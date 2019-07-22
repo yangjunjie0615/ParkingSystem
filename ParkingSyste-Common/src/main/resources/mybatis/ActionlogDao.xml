@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.dao.ActionlogDao">
+  <resultMap id="BaseResultMap" type="com.project.bean.Actionlog">
+    <id column="actionlog_id" jdbcType="INTEGER" property="id" />
+    <result column="actionlog_operatetime" jdbcType="VARCHAR" property="operatetime" />
+    <result column="actionlog_actionmessage" jdbcType="VARCHAR" property="actionmessage" />
+    <result column="actionlog_uid" jdbcType="INTEGER" property="uid" />
+    <result column="actionlog_acioninfo" jdbcType="VARCHAR" property="acioninfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    actionlog.id as actionlog_id, actionlog.operatetime as actionlog_operatetime, actionlog.actionmessage as actionlog_actionmessage, 
+    actionlog.`uid` as `actionlog_uid`, actionlog.acioninfo as actionlog_acioninfo
+  </sql>
+  <select id="selectByExample" parameterType="com.project.bean.ActionlogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from actionlog actionlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from actionlog actionlog
+    where actionlog.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from actionlog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.bean.ActionlogExample">
+    delete from actionlog actionlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.bean.Actionlog" useGeneratedKeys="true">
+    insert into actionlog (operatetime, actionmessage, `uid`, 
+      acioninfo)
+    values (#{operatetime,jdbcType=VARCHAR}, #{actionmessage,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{acioninfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.bean.Actionlog" useGeneratedKeys="true">
+    insert into actionlog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="operatetime != null">
+        operatetime,
+      </if>
+      <if test="actionmessage != null">
+        actionmessage,
+      </if>
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="acioninfo != null">
+        acioninfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="operatetime != null">
+        #{operatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="actionmessage != null">
+        #{actionmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="acioninfo != null">
+        #{acioninfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.bean.ActionlogExample" resultType="java.lang.Long">
+    select count(*) from actionlog actionlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update actionlog actionlog
+    <set>
+      <if test="record.id != null">
+        actionlog.id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.operatetime != null">
+        actionlog.operatetime = #{record.operatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actionmessage != null">
+        actionlog.actionmessage = #{record.actionmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null">
+        actionlog.`uid` = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.acioninfo != null">
+        actionlog.acioninfo = #{record.acioninfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update actionlog actionlog
+    set actionlog.id = #{record.id,jdbcType=INTEGER},
+      actionlog.operatetime = #{record.operatetime,jdbcType=VARCHAR},
+      actionlog.actionmessage = #{record.actionmessage,jdbcType=VARCHAR},
+      actionlog.`uid` = #{record.uid,jdbcType=INTEGER},
+      actionlog.acioninfo = #{record.acioninfo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.bean.Actionlog">
+    update actionlog
+    <set>
+      <if test="operatetime != null">
+        operatetime = #{operatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="actionmessage != null">
+        actionmessage = #{actionmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="acioninfo != null">
+        acioninfo = #{acioninfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.bean.Actionlog">
+    update actionlog
+    set operatetime = #{operatetime,jdbcType=VARCHAR},
+      actionmessage = #{actionmessage,jdbcType=VARCHAR},
+      `uid` = #{uid,jdbcType=INTEGER},
+      acioninfo = #{acioninfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
